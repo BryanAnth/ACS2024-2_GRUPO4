@@ -98,3 +98,40 @@ class VisualizationManager:
         
         plt.tight_layout()
         plt.show()
+
+    def plot_convergence_analysis(self, rewards: List[float], lengths: List[int]):
+        """
+        Analiza la convergencia del entrenamiento.
+        
+        Args:
+            rewards: Lista de recompensas
+            lengths: Lista de duraciones de episodios
+        """
+        plt.figure(figsize=(15, 5))
+        
+        # Evolución de la recompensa
+        plt.subplot(131)
+        plt.plot(rewards)
+        plt.axhline(y=195, color='r', linestyle='--', label='Success Threshold')
+        plt.xlabel('Episode')
+        plt.ylabel('Total Reward')
+        plt.title('Reward Evolution')
+        plt.legend()
+        
+        # Duración de episodios
+        plt.subplot(132)
+        plt.plot(lengths)
+        plt.xlabel('Episode')
+        plt.ylabel('Episode Length')
+        plt.title('Episode Length Evolution')
+        
+        # Histograma 2D de recompensa vs duración
+        plt.subplot(133)
+        plt.hist2d(lengths, rewards, bins=50)
+        plt.xlabel('Episode Length')
+        plt.ylabel('Total Reward')
+        plt.title('Reward vs Episode Length')
+        plt.colorbar(label='Frequency')
+        
+        plt.tight_layout()
+        plt.show()
