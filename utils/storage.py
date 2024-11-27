@@ -6,3 +6,4 @@ class ValueFunctionStorage:
     def save(self,agent):
         with open(self.filename, 'wb') as f:
             pickle.dump(agent.value_function, f)
+        print(f"Value function saved to {self.filename}")
