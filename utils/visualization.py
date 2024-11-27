@@ -62,3 +62,39 @@ class VisualizationManager:
         
         plt.tight_layout()
         plt.show()
+
+    def plot_state_analysis(self, states: List[Tuple], actions: List[int]):
+        """
+        Analiza las distribuciones de estados y acciones.
+        
+        Args:
+            states: Lista de estados visitados
+            actions: Lista de acciones tomadas
+        """
+        states = np.array(states)
+        
+        plt.figure(figsize=(15, 10))
+        
+        # Distribución de posiciones del carro
+        plt.subplot(221)
+        plt.hist(states[:, 0], bins=50)
+        plt.xlabel('Cart Position')
+        plt.ylabel('Frequency')
+        plt.title('Cart Position Distribution')
+        
+        # Distribución de ángulos del péndulo
+        plt.subplot(222)
+        plt.hist(states[:, 2], bins=50)
+        plt.xlabel('Pole Angle')
+        plt.ylabel('Frequency')
+        plt.title('Pole Angle Distribution')
+        
+        # Diagrama de fase
+        plt.subplot(223)
+        plt.scatter(states[:, 0], states[:, 1], c=actions, alpha=0.1)
+        plt.xlabel('Position')
+        plt.ylabel('Velocity')
+        plt.title('Phase Diagram (Position vs Velocity)')
+        
+        plt.tight_layout()
+        plt.show()
