@@ -135,3 +135,24 @@ class VisualizationManager:
         
         plt.tight_layout()
         plt.show()
+
+    def create_training_report(self, results: Dict):
+        """
+        Genera un reporte completo del entrenamiento.
+        
+        Args:
+            results: Diccionario con todos los resultados del entrenamiento
+        """
+        print("=== Training Report ===")
+        print(f"Total Episodes: {len(results['rewards'])}")
+        print(f"Best Reward: {max(results['rewards']):.2f}")
+        print(f"Average Reward (last 100): {np.mean(results['rewards'][-100:]):.2f}")
+        print(f"Success Rate: {np.mean([r >= 195 for r in results['rewards'][-100:]]):.2%}")
+        print("\nGenerating visualizations...")
+        
+        # Generar todas las visualizaciones
+        self.plot_training_progress(results['rewards'])
+        self.plot_state_analysis(results['states'], results['actions'])
+        self.plot_convergence_analysis(results['rewards'], results['lengths'])
+        
+        print("\nReport generation complete.")
