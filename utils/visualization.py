@@ -3,6 +3,7 @@ import numpy as np
 import seaborn as sns
 from typing import List, Dict, Tuple
 import ipywidgets as widgets
+from IPython.display import display
 
 class VisualizationManager:
     def __init__(self):
@@ -156,3 +157,34 @@ class VisualizationManager:
         self.plot_convergence_analysis(results['rewards'], results['lengths'])
         
         print("\nReport generation complete.")
+    
+    def plot_interactive_analysis(results: Dict):
+        """
+        Crea una visualización interactiva de los resultados (requiere ipywidgets).
+        
+        Args:
+            results: Diccionario con resultados del entrenamiento
+        """
+        try:        
+            def update_plot(episode_range):
+                plt.figure(figsize=(10, 5))
+                plt.plot(results['rewards'][episode_range[0]:episode_range[1]])
+                plt.xlabel('Episode')
+                plt.ylabel('Reward')
+                plt.title(f'Training Progress (Episodes {episode_range[0]} to {episode_range[1]})')
+                plt.show()
+            
+            episode_slider = widgets.IntRangeSlider(
+                value=[0, len(results['rewards'])],
+                min=0,
+                max=len(results['rewards']),
+                step=1,
+                description='Episodes:',
+                continuous_update=False
+            )
+            
+            widgets.interactive(update_plot, episode_range=episode_slider)
+            
+        except ImportError:
+            print("Interactive plotting requires ipywidgets. Please install it with:")
+            print("pip install ipywidgets")
