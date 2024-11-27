@@ -41,3 +41,24 @@ class VisualizationManager:
         
         plt.tight_layout()
         plt.show()
+
+    def plot_parameter_comparison(self, parameter_results: Dict):
+        """
+        Compara resultados con diferentes parámetros.
+        
+        Args:
+            parameter_results: Diccionario con resultados para diferentes parámetros
+        """
+        plt.figure(figsize=(15, 5))
+        
+        # Comparación de recompensas promedio
+        plt.subplot(131)
+        for param, results in parameter_results.items():
+            plt.plot(results['moving_avg'], label=f'Param: {param}')
+        plt.xlabel('Episode')
+        plt.ylabel('Average Reward')
+        plt.title('Parameter Comparison')
+        plt.legend()
+        
+        plt.tight_layout()
+        plt.show()
