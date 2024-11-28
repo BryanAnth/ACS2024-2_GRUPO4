@@ -6,10 +6,10 @@ PROYECTO FINAL -  PENDULO INVERTIDO CON CONTROL INTELIGENTE
 comprobar cómo esta estructura de recompensa influye en el aprendizaje del agente.
 4. Entrena el agente en el entorno durante un número específico de episodios, y evalúa cuánto tiempo le toma aprender una política estable. Propongan estrategias para acelerar el proceso de convergencia, como ajustes en la tasa de aprendizaje o exploración. Por ejemplo, ajustar el balance entre exploración y explotación.
 5. Realiza un análisis gráfico y escrito que responda las siguientes preguntas:
-       a. ¿Cómo afecta la longitud del péndulo o la fuerza máxima aplicable en el carro a la capacidad del agente de estabilizar el sistema?
-    b. ¿Cómo influye la estructura de la función de recompensa en el desempeño del agente? Por ejemplo, ¿qué efecto tiene aumentar o disminuir las penalizaciones por movimientos excesivos del carro o la caída del péndulo?
-   c. ¿Cuánto tiempo tarda el agente en aprender una política estable? Analiza cómo la tasa de aprendizaje, el factor de descuento (γ) y la política de exploración afectan el tiempo de convergencia.
-   d. ¿Cómo responde el agente a estados iniciales desfavorables, como un ángulo del péndulo cercano al límite de caída o a una posición extrema del carro?
+    a. ¿Cómo afecta la longitud del péndulo o la fuerza máxima aplicable en el carro a la capacidad del agente de estabilizar el sistema?<br>
+    b. ¿Cómo influye la estructura de la función de recompensa en el desempeño del agente? Por ejemplo, ¿qué efecto tiene aumentar o disminuir las penalizaciones por movimientos excesivos del carro o la caída del péndulo?<br>
+   c. ¿Cuánto tiempo tarda el agente en aprender una política estable? Analiza cómo la tasa de aprendizaje, el factor de descuento (γ) y la política de exploración afectan el tiempo de convergencia.<br>
+   d. ¿Cómo responde el agente a estados iniciales desfavorables, como un ángulo del péndulo cercano al límite de caída o a una posición extrema del carro?<br>
    e. Genera gráficos que representen la evolución de la recompensa acumulada por episodio durante el entrenamiento
 
 ## Requisitos previos
