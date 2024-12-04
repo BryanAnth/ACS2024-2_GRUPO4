@@ -12,8 +12,8 @@ def main():
     value_storage = ValueFunctionStorage("value_function.pkl")
 
     
-    pendulum = CarPole(initial_angle_deg=0)
-    agent = Agent(alpha=0.1, prob_exp=0.2)
+    pendulum = CarPole(initial_angle_deg=0, theta_threshold_radians=0.21)
+    agent = Agent(prob_exp=0.5)
     q_learning = QLearning(alpha=0.1, gamma=0.99)
 
     # Impresión del Qtable Value Function limitada a los primeros 100 valores
@@ -23,7 +23,7 @@ def main():
 
     # Entrenamiento
     print("Training the agent...")
-    rewards = train_pendulum(agent, pendulum, q_learning, episodes=500)
+    rewards = train_pendulum(agent, pendulum, q_learning, exploration_decay = 2000, episodes=5000)
 
     # Resultados
     plt.plot(rewards)
