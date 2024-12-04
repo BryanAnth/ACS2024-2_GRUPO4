@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import sys
 
-MAX_STEPS = 50
+MAX_STEPS = 5000
 
 
 
@@ -11,11 +11,13 @@ def test_pendulum(agent, pendulum, episodes=1000):
         done = False
         steps = 0
 
-        while steps < MAX_STEPS:#not done:
+        #Testear mientras el cartpole este estabable y no se supere la unidad tiempo MAX_STEPS
+        while steps < MAX_STEPS and not done:
 
             action = agent.choose_action(state, explore=False)
             next_state, reward, done, _ = pendulum.step(action)
             steps += 1
+            state = next_state
 
         sys.stdout.write(f"\rEpisode {episode}: Balanced for {steps} steps")
         sys.stdout.flush()

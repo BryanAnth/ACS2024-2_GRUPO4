@@ -16,9 +16,9 @@ def train_pendulum(agent, pendulum, qlearning, episodes=10):
             action = agent.choose_action(state, explore=True)
             next_state, reward, done, _ = pendulum.step(action)
             total_reward += reward
-            #agent.record_position(state, action)
+            
             qlearning.update(state, next_state, action, reward, agent, done)
-            #agent.update_value_function(next_state, action, reward)
+            
             state = next_state
             steps += 1  # Incrementar el contador
 
@@ -26,7 +26,7 @@ def train_pendulum(agent, pendulum, qlearning, episodes=10):
         rewards.append(total_reward)
 
         # Reduce exploración con el tiempo
-        if episode > 500:
+        if episode > 200:
             agent.prob_exp = max(0.01, agent.prob_exp * 0.995)
 
     return rewards

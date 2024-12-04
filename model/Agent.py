@@ -57,28 +57,3 @@ class Agent():
 
         #return 
         return best_action if best_action is not None else np.random.choice(self.actions)
-
-    def update_q_table(self, reward):
-        """
-        Propaga la recompensa hacia atrás en la tabla de valores.
-        """
-        for state_action in reversed(self.positions):
-            if state_action not in self.value_function:
-                self.value_function[state_action] = 0
-            self.value_function[state_action] += self.alpha * (reward - self.value_function[state_action])
-            reward = self.value_function[state_action]
-
-    def update_value_function(self, state, action, reward):
-        """
-        Propaga la recompensa hacia atrás en la tabla de valores.
-        """
-        learning = (self.discretize_state(state), action)
-        if learning not in self.value_function:
-            self.value_function[learning] = 0
-        self.value_function[learning] += self.alpha * (reward - self.value_function[learning])
-
-    def record_position(self, state, action):
-        """
-        Guarda el estado y acción actual.
-        """
-        self.positions.append((self.discretize_state(state), action))

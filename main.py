@@ -5,35 +5,25 @@ from utils.learning import train_pendulum
 from utils.test import test_pendulum
 from utils.storage import ValueFunctionStorage
 import matplotlib.pyplot as plt
-import time
+from itertools import islice
 
 def main():
 
     value_storage = ValueFunctionStorage("value_function.pkl")
 
-    # Inicializa las clases
-    #renderer = CartPoleRenderer(duration=100)
-    #stabilizer = Stabilizer()
     
-    # Ejecuta la simulación
-    #renderer.render(action_callback=stabilizer.decide_action)
-    # Entrenamiento
-    pendulum = CarPole(initial_angle_deg=180)
+    pendulum = CarPole(initial_angle_deg=0)
     agent = Agent(alpha=0.1, prob_exp=0.2)
     q_learning = QLearning(alpha=0.1, gamma=0.99)
 
-    # Cargar la función de valor si ya existe
-    value_storage.load(agent)
-    print(len(agent.value_function))
-    a = 0
-    for value in agent.value_function:
-        if a == 100:
-            break
-        a+=1
-        print(f"{value} - {agent.value_function[value]} \n")
+    # Impresión del Qtable Value Function limitada a los primeros 100 valores
+    print(f"Total entries in value_function: {len(agent.value_function)}")
+    for value, function_value in islice(agent.value_function.items(), 100):
+        print(f"{value} - {function_value}\n")
 
+    # Entrenamiento
     print("Training the agent...")
-    rewards = train_pendulum(agent, pendulum, q_learning, episodes=1500)
+    rewards = train_pendulum(agent, pendulum, q_learning, episodes=500)
 
     # Resultados
     plt.plot(rewards)
