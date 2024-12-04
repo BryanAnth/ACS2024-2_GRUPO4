@@ -3,14 +3,14 @@ import math
 import numpy as np
 
 class CarPole:
-    def __init__(self, initial_angle_deg=0):
+    def __init__(self, initial_angle_deg=0, theta_threshold_radians=0.21):
         """
         Inicializa el entorno CartPole con renderizado y un ángulo inicial personalizado.
         """
         self.env = gym.make('CartPole-v1', render_mode="human")
         self.env = self.env.unwrapped  # Desempaquetar el entorno para modificarlo
         self.x_threshold = 4.0  # Límite personalizado para la posición del carrito
-        self.theta_threshold_radians = 0.8  # Límite personalizado para el ángulo del poste
+        self.theta_threshold_radians = theta_threshold_radians  # Límite personalizado para el ángulo del poste
         self.state = None
         self.set_initial_angle(initial_angle_deg)  # Configurar el ángulo inicial
 

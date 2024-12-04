@@ -1,15 +1,10 @@
 import numpy as np
 
 class Agent():
-    def __init__(self, alpha=0.5, prob_exp=0.5):
+    def __init__(self, prob_exp=0.5):
         self.value_function = {}  # Tabla con pares estado -> valor
-        self.alpha = alpha  # Learning rate
         self.prob_exp = prob_exp  # Probabilidad de explorar
         self.actions = [0, 1]  # 0 Push cart to the left, 1 Push cart to the right
-        self.positions = [] 
-
-    def reset(self):
-        self.positions = []
 
     def discretize_state(self, state):
         """
@@ -40,10 +35,10 @@ class Agent():
         """
         Elige una acción basada en la exploración o explotación.
         """
-        if explore and np.random.uniform(0, 1) < self.prob_exp:
-            numbero = np.random.choice(self.actions)
+        numero = np.random.choice(self.actions)
 
-            return numbero # Acción aleatoria entre 0 y 1
+        if explore and np.random.uniform(0, 1) < self.prob_exp:
+            return numero # Acción aleatoria entre 0 y 1
 
         # Explotar el mejor valor conocido
         max_value = -float("inf")
@@ -55,5 +50,5 @@ class Agent():
                 max_value = value
                 best_action = action
 
-        #return 
-        return best_action if best_action is not None else np.random.choice(self.actions)
+            
+        return best_action if best_action is not None else numero

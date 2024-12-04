@@ -2,12 +2,11 @@ from tqdm import tqdm
 
 MAX_STEPS = 100
 
-def train_pendulum(agent, pendulum, qlearning, episodes=10):
+def train_pendulum(agent, pendulum, qlearning, exploration_decay=500, episodes=1000):
     rewards = []
 
     for episode in tqdm(range(1, episodes + 1)):
         state = pendulum.reset()
-        agent.reset()
         total_reward = 0
         done = False
         steps = 0  # Contador de pasos
@@ -22,11 +21,11 @@ def train_pendulum(agent, pendulum, qlearning, episodes=10):
             state = next_state
             steps += 1  # Incrementar el contador
 
-        #agent.update_value_function(total_reward)
+        
         rewards.append(total_reward)
 
         # Reduce exploración con el tiempo
-        if episode > 200:
+        if episode > exploration_decay:
             agent.prob_exp = max(0.01, agent.prob_exp * 0.995)
 
     return rewards
