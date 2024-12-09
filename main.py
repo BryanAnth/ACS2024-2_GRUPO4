@@ -23,7 +23,7 @@ def main():
 
     # Entrenamiento
     print("Training the agent...")
-    rewards = train_pendulum(agent, pendulum, q_learning, exploration_decay = 2000, episodes=5000)
+    rewards = train_pendulum(agent, pendulum, q_learning, exploration_decay = 5, episodes=2000)
 
     # Resultados
     plt.plot(rewards)
@@ -37,9 +37,16 @@ def main():
 
     # Prueba
     print("Testing the trained agent...")
-    test_pendulum(agent, pendulum)
+    theta, theta_dot, rewards, avg_rewards,episode_times = test_pendulum(agent, pendulum)
+
+    # Ejemplo de uso de avg_rewards
+    plt.plot(avg_rewards, label='Average Reward per Episode')
+    plt.title("Average Rewards Across Episodes")
+    plt.xlabel("Episode")
+    plt.ylabel("Average Reward")
+    plt.legend()
+    plt.show()
 
 
 if __name__ == "__main__":
     main()
-    
