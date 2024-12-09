@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 class CarPole:
-    def __init__(self, initial_angle_deg=0, theta_threshold_radians=0.21):
+    def __init__(self, initial_angle_deg=0, theta_threshold_radians=0.21, length=0.5, force=1.0):
         """
         Inicializa el entorno CartPole con renderizado y un ángulo inicial personalizado.
         """
@@ -13,12 +13,18 @@ class CarPole:
         self.theta_threshold_radians = theta_threshold_radians  # Límite personalizado para el ángulo del poste
         self.state = None
         self.set_initial_angle(initial_angle_deg)  # Configurar el ángulo inicial
+        # Configurar parámetros físicos
+        self.length = length
+        self.force = force
 
     def reset(self, initial_angle_deg=0):
         """
         Reinicia el entorno y ajusta el ángulo inicial.
         """
         self.state = self.env.reset()[0]  # Reinicia el entorno
+        # Configurar parámetros físicos
+        self.env.length = self.length
+        # self.env.force_mag = self.force
         self.set_initial_angle(initial_angle_deg)  # Ajusta el ángulo inicial
         cart_position, cart_velocity, pole_angle, pole_velocity = self.state
         return np.array([cart_position, cart_velocity, pole_angle, pole_velocity])  # Devuelve el ángulo y su velocidad angular
@@ -52,9 +58,16 @@ class CarPole:
         # Mantener el ángulo en el rango [-pi, pi]
         pole_angle = ((pole_angle + np.pi) % (2 * np.pi)) - np.pi
 
-        # Recompensa: se premia el ángulo cerca de 0 (vertical) y se penaliza la posición del carrito
-        reward = 1.0 # - 0.02 * (cart_position**2)# - 0.5 * (pole_angle**2) - 0.02 * (cart_position**2) - 0.05 * (cart_velocity**2) - 0.1 * (pole_velocity**2)
-
+        # Calcular componentes de la recompensa
+        angle_reward = np.cos(pole_angle)  # Máximo cuando el péndulo está vertical
+        position_reward = 1.0 - abs(cart_position) / self.x_threshold
+        stability_reward = 1.0 - (abs(cart_velocity) + abs(pole_velocity)) / 10.0
+        # Combinar componentes de recompensa
+        reward = (
+            0.5 * angle_reward +  # Priorizar mantener el péndulo vertical
+            0.3 * position_reward +  # Mantener el carro cerca del centro
+            0.2 * stability_reward  # Minimizar velocidades
+        )
         # Condiciones personalizadas de terminación
         done = (
             abs(cart_position) > self.x_threshold or  # Fuera de los límites del carrito
