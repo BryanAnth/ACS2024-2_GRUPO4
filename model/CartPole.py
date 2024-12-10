@@ -3,13 +3,13 @@ import math
 import numpy as np
 
 class CarPole:
-    def __init__(self, initial_angle_deg=0, theta_threshold_radians=0.21, length=0.5, force=1.0):
+    def __init__(self, initial_angle_deg=0, theta_threshold_radians=0.21, length=0.5, force=10.0):
         """
         Inicializa el entorno CartPole con renderizado y un ángulo inicial personalizado.
         """
         self.env = gym.make('CartPole-v1', render_mode="human")
         self.env = self.env.unwrapped  # Desempaquetar el entorno para modificarlo
-        self.x_threshold = 4.0  # Límite personalizado para la posición del carrito
+        self.x_threshold = 1.0  # Límite personalizado para la posición del carrito
         self.theta_threshold_radians = theta_threshold_radians  # Límite personalizado para el ángulo del poste
         self.state = None
         self.set_initial_angle(initial_angle_deg)  # Configurar el ángulo inicial
@@ -24,7 +24,7 @@ class CarPole:
         self.state = self.env.reset()[0]  # Reinicia el entorno
         # Configurar parámetros físicos
         self.env.length = self.length
-        # self.env.force_mag = self.force
+        self.env.force_mag = self.force
         self.set_initial_angle(initial_angle_deg)  # Ajusta el ángulo inicial
         cart_position, cart_velocity, pole_angle, pole_velocity = self.state
         return np.array([cart_position, cart_velocity, pole_angle, pole_velocity])  # Devuelve el ángulo y su velocidad angular
@@ -64,8 +64,8 @@ class CarPole:
         stability_reward = 1.0 - (abs(cart_velocity) + abs(pole_velocity)) / 10.0
         # Combinar componentes de recompensa
         reward = (
-            0.5 * angle_reward +  # Priorizar mantener el péndulo vertical
-            0.3 * position_reward +  # Mantener el carro cerca del centro
+            0.3 * angle_reward +  # Priorizar mantener el péndulo vertical
+            0.5 * position_reward +  # Mantener el carro cerca del centro
             0.2 * stability_reward  # Minimizar velocidades
         )
         # Condiciones personalizadas de terminación
